@@ -4,3 +4,11 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
+.DS_Store
+
+build
+dist
+packages
+typings
+.tmp
+
