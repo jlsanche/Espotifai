@@ -66,13 +66,12 @@ $artist = $album->getArtist();
 
                 <span class='duration'> " . $albumSong->getDuration() . "</span>
 
-         
-            </div>
-     
+            </div>     
             </li>";
 
             $i++;
         } ?>
+        
     </ul>
 
 
