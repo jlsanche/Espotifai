@@ -3,7 +3,7 @@ $songQuery = mysqli_query($con, "SELECT id FROM Songs ORDER BY RAND() LIMIT 10")
 
 $resultArray = array();
 
-while($row = mysqli_fetch_array($songQuery)) {
+while ($row = mysqli_fetch_array($songQuery)) {
 	array_push($resultArray, $row['id']);
 }
 
@@ -11,57 +11,68 @@ $jsonArray = json_encode($resultArray);
 ?>
 
 <script>
-
-$(document).ready(function() {
-	currentPlaylist = <?php echo $jsonArray; ?>;
-	audioElement = new Audio();
-	setTrack(currentPlaylist[0], currentPlaylist, false);
-});
-
-
-function setTrack(trackId, newPlaylist, play) {
-
-	$.post("includes/handlers/ajax/getSongJson.php", { songId: trackId }, function(data) {
-
-		var track = JSON.parse(data);
-
-		$(".trackName span").text(track.title);
-
-		$.post("includes/handlers/ajax/getArtistJson.php", { artistId: track.artist }, function(data) {
-			var artist = JSON.parse(data);
-
-			$(".artistName span").text(artist.name);
-		});
-
-
-		$.post("includes/handlers/ajax/getAlbumJson.php", { albumId: track.album }, function(data) {
-			var album = JSON.parse(data);
-
-			$(".albumLink img").attr("src", album.artworkPath);
-		});
-
-
-		audioElement.setTrack(track.path);
-		audioElement.play();
+	$(document).ready(function() {
+		currentPlaylist = <?php echo $jsonArray; ?>;
+		audioElement = new Audio();
+		setTrack(currentPlaylist[0], currentPlaylist, false);
 	});
 
-	if(play == true) {
+
+	function setTrack(trackId, newPlaylist, play) {
+
+		$.post("includes/handlers/ajax/getSongJson.php", {
+			songId: trackId
+		}, function(data) {
+
+			var track = JSON.parse(data);
+
+			$(".trackName span").text(track.title);
+
+			$.post("includes/handlers/ajax/getArtistJson.php", {
+				artistId: track.artist
+			}, function(data) {
+				var artist = JSON.parse(data);
+
+				$(".artistName span").text(artist.name);
+			});
+
+
+			$.post("includes/handlers/ajax/getAlbumJson.php", {
+				albumId: track.album
+			}, function(data) {
+				var album = JSON.parse(data);
+
+				$(".albumLink img").attr("src", album.artworkPath);
+			});
+
+
+			audioElement.setTrack(track);
+			playSong();
+		});
+
+		if (play == true) {
+			audioElement.play();
+		}
+	}
+
+	/* get currentTime from audio elemnt object if at beginning tally it  */
+	function playSong() {
+		if (audioElement.audio.currentTime == 0) {
+			$.post("includes/handlers/ajax/updatePlays.php", {
+				songId: audioElement.currentlyPlaying.id
+			});
+
+		}
+		$(".controlButton.play").hide();
+		$(".controlButton.pause").show();
 		audioElement.play();
 	}
-}
 
-function playSong() {
-	$(".controlButton.play").hide();
-	$(".controlButton.pause").show();
-	audioElement.play();
-}
-
-function pauseSong() {
-	$(".controlButton.play").show();
-	$(".controlButton.pause").hide();
-	audioElement.pause();
-}
-
+	function pauseSong() {
+		$(".controlButton.play").show();
+		$(".controlButton.pause").hide();
+		audioElement.pause();
+	}
 </script>
 
 
@@ -160,9 +171,6 @@ function pauseSong() {
 
 			</div>
 		</div>
-
-
-
 
 	</div>
 
