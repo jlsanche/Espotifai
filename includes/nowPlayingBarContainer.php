@@ -15,24 +15,57 @@ $jsonArray = json_encode($resultArray);
 		currentPlaylist = <?php echo $jsonArray; ?>;
 		audioElement = new Audio();
 		setTrack(currentPlaylist[0], currentPlaylist, false);
+		updateVolumeProgressBar(audioElement.audio);
 
-		$(".playbackBar .progressBar").mousedown( function () {
+		$("#nowPlayingBarContainer").on('mousedown touchstart mousemove touchmove', function(e) {
+			e.preventDefault();
+		});
+
+		$(".playbackBar .progressBar").mousedown(function() {
 			mouseDown = true;
 		});
 
-		$(".playbackBar .progressBar").mousemove( function (e) {
-			if(mouseDown) {
+		$(".playbackBar .progressBar").mousemove(function(e) {
+			if (mouseDown) {
 				timeFromOffset(e, this);
 			}
 		});
 
-		$(".playbackBar .progressBar").mouseup( function (e) {
-			
-				timeFromOffset(e, this);
-		
+
+		$(".progressBar .progressBar").mouseup(function(e) {
+
+			timeFromOffset(e, this);
+
 		});
 
-		$(document).mouseup(function () {
+		/* volume bar controller  */
+		$(".volumeBar .progressBar").mousedown(function() {
+			mouseDown = true;
+		});
+
+		$(".volumeBar .progressBar").mousemove(function(e) {
+			if (mouseDown) {
+				let percentage = e.offsetX / $(this).width();
+				if (percentage >= 0 && percentage <= 1) {
+
+					audioElement.audio.volume = percentage;
+				}
+
+			}
+		});
+
+		$(".volumeBar .progressBar").mouseup(function(e) {
+
+			let percentage = e.offsetX / $(this).width();
+			if (percentage >= 0 && percentage <= 1) {
+
+				audioElement.audio.volume = percentage;
+			}
+
+		});
+
+
+		$(document).mouseup(function() {
 			mouseDown = false;
 		})
 
@@ -48,7 +81,31 @@ $jsonArray = json_encode($resultArray);
 	}
 
 
+	function nextSong() {
+		if (currentIndex == currentPlaylist.length - 1) {
+			currentIndex = 0;
+
+		} else {
+			currentIndex++;
+		}
+
+		let trackToPlay = currentPlaylist[currentIndex];
+		setTrack(trackToPlay, currentPlaylist, true);
+	}
+
+	function setRepeat() {
+		repeat = !repeat;
+		let imageName = repeat ? "repeat-active.png" : "repeat.png ";
+		$(".controlButton.repeat img").attr("src", "assets/images/icons/" + imageName);
+	}
+
+
 	function setTrack(trackId, newPlaylist, play) {
+
+
+		currentIndex = currentPlaylist.indexOf(trackId);
+		pauseSong();
+
 
 		$.post("includes/handlers/ajax/getSongJson.php", {
 			songId: trackId
@@ -154,11 +211,11 @@ $jsonArray = json_encode($resultArray);
 						<img src="assets/images/icons/pause.png" alt="Pause">
 					</button>
 
-					<button class="controlButton next" title="Next button">
+					<button class="controlButton next" title="Next button"  onclick="nextSong()">
 						<img src="assets/images/icons/next.png" alt="Next">
 					</button>
 
-					<button class="controlButton repeat" title="Repeat button">
+					<button class="controlButton repeat" title="Repeat button" onclick="setRepeat()">
 						<img src="assets/images/icons/repeat.png" alt="Repeat">
 					</button>
 
