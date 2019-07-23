@@ -1,8 +1,12 @@
-let currentPlayList = [];
+let currentPlaylist = [];
+let shufflePlaylist = [];
+let tempPlaylist = [];
 let audioElement = '';
 let mouseDown =false;
 let currentIndex = 0;
 let repeat = false;
+let shuffle = false;
+
 
 
 
@@ -35,9 +39,13 @@ function updateVolumeProgressBar(audio) {
 
 function Audio() {
 
+
     this.currentlyPlaying;
     this.audio = document.createElement('audio');  // built-in html5 audio element 
 
+    this.audio.addEventListener('ended', function () {
+        nextSong();
+    });
     this.audio.addEventListener('canplay', function () {
         let duration = formatTime(this.duration)
         $(".progressTime.remaining").text(duration);
