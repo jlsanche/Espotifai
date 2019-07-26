@@ -331,8 +331,7 @@ font-weight: 200
     width: 20px;
     visibility: hidden;
     position: absolute;
-    cursor: pointer;
-     
+    cursor: pointer;   
 }
 
 .trackListRow:hover .trackCount img {
@@ -344,7 +343,6 @@ font-weight: 200
 .trackListRow .trackCount span {
 
     visibility: visible;
-
 
 }
 

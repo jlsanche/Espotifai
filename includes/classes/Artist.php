@@ -8,7 +8,7 @@ class Artist {
     public function __construct($con, $id)
     {
         $this->con = $con;
-        $this-> id = $id;
+        $this->id = $id;
      
     }
 

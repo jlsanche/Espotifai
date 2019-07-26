@@ -147,23 +147,22 @@ $jsonArray = json_encode($resultArray);
 
 	function setTrack(trackId, newPlaylist, play) {
 
-		if(newPlaylist != currentPlaylist) {
+		if (newPlaylist != currentPlaylist) {
 			currentPlaylist = newPlaylist;
 			shufflePlaylist = currentPlaylist.slice();
 			shuffleArray(shufflePlaylist);
 		}
 
-		if(shuffle) {
+		if (shuffle) {
 
 			currentIndex = shufflePlaylist.indexOf(trackId);
 
 		} else {
 
-		currentIndex = currentPlaylist.indexOf(trackId);
-		pauseSong();
+			currentIndex = currentPlaylist.indexOf(trackId);
+			pauseSong();
 
 		}
-		
 
 
 		$.post("includes/handlers/ajax/getSongJson.php", {
@@ -191,14 +190,15 @@ $jsonArray = json_encode($resultArray);
 				$(".albumLink img").attr("src", album.artworkPath);
 			});
 
-
 			audioElement.setTrack(track);
+
+			if (play) {
 			playSong();
+		}
+
 		});
 
-		if (play == true) {
-			audioElement.play();
-		}
+		
 	}
 
 	/* get currentTime from audio elemnt object if at beginning tally it  */

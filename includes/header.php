@@ -8,13 +8,17 @@ include('includes/classes/Song.php');
 
 //session_destroy();
 
-// if(isset($_SESSION['userLoggedIn'])) {
-//     $userLoggedIn = $_SESSION['userLoggedIn'];
-// } else {
+if(isset($_SESSION['userLoggedIn'])) {
 
-//     header('location:register.php');
-// }
-// 
+    $userLoggedIn = $_SESSION['userLoggedIn'];
+
+    echo "<script>  userLoggedIn = '$userLoggedIn'</script>";
+
+} else {
+
+    header('location:register.php');
+}
+
 ?>
 
 <html>
