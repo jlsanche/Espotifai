@@ -423,3 +423,13 @@ font-weight: 200
 
 }
 
+.trackListContainer h2,
+.gridViewContainer h2 {
+    text-align: center
+}
+
+[role="link"] {
+    cursor: pointer;
+}
+
+
