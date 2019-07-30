@@ -13,13 +13,10 @@ function openPage(url) {
     if (url.indexOf("?") == -1) {
         url = url + "?";
     }
-    let encodedUrl = encodeURI(url + "&userLoggedIn=" + userLoggedIn);
-    console.log(encodedUrl);
+    let encodedUrl = encodeURI(url + "&userLoggedIn= " + userLoggedIn);
     $("#mainContent").load(encodedUrl);
     $("body").scrollTop(0);
-    history.pushState(null, null, url);
-   
-
+    history.pushState(null, null, url); 
 }
 
 function formatTime(seconds) {

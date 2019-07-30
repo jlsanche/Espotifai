@@ -202,8 +202,7 @@ $jsonArray = json_encode($resultArray);
 		}
 
 		});
-
-		
+	
 	}
 
 	/* get currentTime from audio elemnt object if at beginning tally it  */
@@ -284,7 +283,6 @@ $jsonArray = json_encode($resultArray);
 					</button>
 
 				</div>
-
 
 				<div class="playbackBar">
 

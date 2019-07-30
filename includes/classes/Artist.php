@@ -9,7 +9,6 @@ class Artist {
     {
         $this->con = $con;
         $this->id = $id;
-     
     }
 
     public function getName () {
